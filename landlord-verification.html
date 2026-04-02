@@ -1,0 +1,578 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Verification - Nyumba Find</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .step.active .step-circle {
+            background: #667eea;
+            color: white;
+        }
+
+        .step.completed .step-circle {
+            background: #27ae60;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+            .form-section.active {
+                display: block;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+            input:focus, select:focus {
+                outline: none;
+                border-color: #667eea;
+            }
+
+        .code-inputs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .code-input {
+            flex: 1;
+            text-align: center;
+            font-size: 20px;
+            letter-spacing: 5px;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background: #5568d3;
+            }
+
+            .btn-primary:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+
+        .message {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+            .message.show {
+                display: block;
+            }
+
+            .message.success {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+
+            .message.error {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+
+            .message.info {
+                background: #d1ecf1;
+                color: #0c5460;
+                border: 1px solid #bee5eb;
+            }
+
+        .timer {
+            text-align: center;
+            color: #667eea;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .file-preview {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+            .file-preview img {
+                max-width: 100%;
+                max-height: 200px;
+                border-radius: 5px;
+            }
+
+        .resend-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+            .resend-link a {
+                color: #667eea;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+                .resend-link a:hover {
+                    text-decoration: underline;
+                }
+
+            .resend-link.disabled {
+                opacity: 0.5;
+                pointer-events: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Complete Your Verification</h1>
+        <p class="subtitle">All steps are required to list properties</p>
+
+        <div class="progress-steps">
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Email</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Phone</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Identity</div>
+            </div>
+        </div>
+
+        <!-- EMAIL VERIFICATION -->
+        <div class="form-section active" id="email-section">
+            <div class="message" id="email-message"></div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="your@email.com" required>
+            </div>
+
+            <button class="btn-primary" onclick="sendEmailCode()">Send Verification Code</button>
+
+            <div style="display: none;" id="email-code-form">
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #ecf0f1;">
+                    <label>Enter 6-Digit Code</label>
+                    <div class="code-inputs">
+                        <input type="text" class="code-input email-digit" maxlength="1" id="email-code-1">
+                        <input type="text" class="code-input email-digit" maxlength="1" id="email-code-2">
+                        <input type="text" class="code-input email-digit" maxlength="1" id="email-code-3">
+                        <input type="text" class="code-input email-digit" maxlength="1" id="email-code-4">
+                        <input type="text" class="code-input email-digit" maxlength="1" id="email-code-5">
+                        <input type="text" class="code-input email-digit" maxlength="1" id="email-code-6">
+                    </div>
+                    <button class="btn-primary" onclick="verifyEmailCode()">Verify Email</button>
+                    <div class="resend-link" id="email-resend">
+                        <small id="email-resend-text"></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHONE VERIFICATION -->
+        <div class="form-section" id="phone-section">
+            <div class="message" id="phone-message"></div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="phone" placeholder="+254712345678 or 0712345678" required>
+            </div>
+
+            <button class="btn-primary" onclick="sendPhoneOTP()">Send OTP to Phone</button>
+
+            <div style="display: none;" id="phone-code-form">
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #ecf0f1;">
+                    <label>Enter 6-Digit OTP</label>
+                    <div class="code-inputs">
+                        <input type="text" class="code-input phone-digit" maxlength="1" id="phone-code-1">
+                        <input type="text" class="code-input phone-digit" maxlength="1" id="phone-code-2">
+                        <input type="text" class="code-input phone-digit" maxlength="1" id="phone-code-3">
+                        <input type="text" class="code-input phone-digit" maxlength="1" id="phone-code-4">
+                        <input type="text" class="code-input phone-digit" maxlength="1" id="phone-code-5">
+                        <input type="text" class="code-input phone-digit" maxlength="1" id="phone-code-6">
+                    </div>
+                    <div class="timer" id="timer"></div>
+                    <button class="btn-primary" onclick="verifyPhoneCode()">Verify Phone</button>
+                    <div class="resend-link" id="phone-resend">
+                        <small id="phone-resend-text"></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IDENTITY VERIFICATION -->
+        <div class="form-section" id="identity-section">
+            <div class="message" id="identity-message"></div>
+
+            <div class="form-group">
+                <label>Document Type</label>
+                <select id="doc-type" required>
+                    <option value="">Select Document Type</option>
+                    <option value="national_id">National ID</option>
+                    <option value="passport">Passport</option>
+                    <option value="drivers_license">Driver's License</option>
+                    <option value="business_license">Business License</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Document Number</label>
+                <input type="text" id="doc-number" placeholder="Enter document number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Upload Document (JPG, PNG, or PDF - Max 5MB)</label>
+                <input type="file" id="doc-file" accept=".jpg,.jpeg,.png,.pdf" required>
+                <div class="file-preview" id="file-preview"></div>
+            </div>
+
+            <button class="btn-primary" onclick="uploadIdentity()">Upload & Complete</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost/nyumba-find-backend/api/landlord';
+        let currentStep = 1;
+        const userId = localStorage.getItem('user_id');
+
+        if (!userId) {
+            alert('Session expired. Please log in again.');
+            window.location.href = 'login.html';
+        }
+
+        // Auto-advance code inputs
+        document.querySelectorAll('.email-digit, .phone-digit').forEach(input => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value && e.target.nextElementSibling) {
+                    e.target.nextElementSibling.focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && e.target.previousElementSibling) {
+                    e.target.previousElementSibling.focus();
+                }
+            });
+        });
+
+        // File preview
+        document.getElementById('doc-file').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const preview = document.getElementById('file-preview');
+                if (file.type.startsWith('image')) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        preview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.innerHTML = `<p>📄 ${file.name}</p>`;
+                }
+            }
+        });
+
+        async function sendEmailCode() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                showMessage('email-message', 'Please enter email', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/verify-email-send.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, email })
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showMessage('email-message', 'Code sent! Check your email', 'success');
+                    document.getElementById('email-code-form').style.display = 'block';
+                    document.querySelector('button[onclick="sendEmailCode()"]').disabled = true;
+                } else {
+                    showMessage('email-message', data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('email-message', 'Network error', 'error');
+            }
+        }
+
+        async function verifyEmailCode() {
+            const code = Array.from(document.querySelectorAll('.email-digit'))
+                .map(input => input.value)
+                .join('');
+
+            if (code.length !== 6) {
+                showMessage('email-message', 'Please enter 6-digit code', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/verify-email-confirm.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, code })
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showMessage('email-message', 'Email verified!', 'success');
+                    updateProgress(1);
+                    setTimeout(goToStep2, 1500);
+                } else {
+                    showMessage('email-message', data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('email-message', 'Network error', 'error');
+            }
+        }
+
+        async function sendPhoneOTP() {
+            const phone = document.getElementById('phone').value;
+            if (!phone) {
+                showMessage('phone-message', 'Please enter phone number', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/verify-phone-send.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, phone })
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showMessage('phone-message', 'OTP sent to phone!', 'success');
+                    document.getElementById('phone-code-form').style.display = 'block';
+                    document.querySelector('button[onclick="sendPhoneOTP()"]').disabled = true;
+                    startTimer();
+                } else {
+                    showMessage('phone-message', data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('phone-message', 'Network error', 'error');
+            }
+        }
+
+        async function verifyPhoneCode() {
+            const otp = Array.from(document.querySelectorAll('.phone-digit'))
+                .map(input => input.value)
+                .join('');
+
+            if (otp.length !== 6) {
+                showMessage('phone-message', 'Please enter 6-digit OTP', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/verify-phone-confirm.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, otp })
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showMessage('phone-message', 'Phone verified!', 'success');
+                    updateProgress(2);
+                    setTimeout(goToStep3, 1500);
+                } else {
+                    showMessage('phone-message', data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('phone-message', 'Network error', 'error');
+            }
+        }
+
+        async function uploadIdentity() {
+            const docType = document.getElementById('doc-type').value;
+            const docNumber = document.getElementById('doc-number').value;
+            const docFile = document.getElementById('doc-file').files[0];
+
+            if (!docType || !docNumber || !docFile) {
+                showMessage('identity-message', 'Please fill all fields', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('user_id', userId);
+            formData.append('document_type', docType);
+            formData.append('document_number', docNumber);
+            formData.append('document', docFile);
+
+            try {
+                const response = await fetch(`${API_BASE}/upload-identity.php`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    showMessage('identity-message', data.message, 'success');
+                    updateProgress(3);
+                    setTimeout(() => {
+                        alert('Verification complete! Your account is pending admin review.');
+                        window.location.href = 'landlord-dashboard.html';
+                    }, 2000);
+                } else {
+                    showMessage('identity-message', data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('identity-message', 'Upload failed', 'error');
+            }
+        }
+
+        function goToStep2() {
+            currentStep = 2;
+            updateStep();
+        }
+
+        function goToStep3() {
+            currentStep = 3;
+            updateStep();
+        }
+
+        function updateStep() {
+            document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
+            const sections = ['email-section', 'phone-section', 'identity-section'];
+            document.getElementById(sections[currentStep - 1]).classList.add('active');
+        }
+
+        function updateProgress(step) {
+            document.getElementById(`step${step}`).classList.add('completed');
+            document.getElementById(`step${step}`).classList.remove('active');
+            if (step < 3) {
+                document.getElementById(`step${step + 1}`).classList.add('active');
+            }
+        }
+
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message show ${type}`;
+        }
+
+        function startTimer() {
+            let seconds = 600; // 10 minutes
+            const timerElement = document.getElementById('timer');
+
+            const interval = setInterval(() => {
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    timerElement.textContent = 'OTP expired. Request a new one.';
+                    document.querySelector('button[onclick="sendPhoneOTP()"]').disabled = false;
+                } else {
+                    const mins = Math.floor(seconds / 60);
+                    const secs = seconds % 60;
+                    timerElement.textContent = `Expires in ${mins}:${secs.toString().padStart(2, '0')}`;
+                    seconds--;
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

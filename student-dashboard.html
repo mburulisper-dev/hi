@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard - Nyumba Find</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/student-dashboard.css">
+    <link rel="stylesheet" href="css/utils.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <!-- HEADER WITH PROFILE & THEME -->
+    <header class="top-header">
+        <div class="header-left">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="ri-menu-3-line"></i>
+            </button>
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="ri-home-heart-line"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Nyumba Find</h1>
+                    <p>Find Your Perfect Home</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="search-bar-header">
+                <i class="ri-search-line"></i>
+                <input type="text" placeholder="Quick search..." id="quickSearch">
+            </div>
+
+            <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+                <i class="ri-sun-line"></i>
+            </button>
+
+            <div class="notification-badge">
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="ri-notification-3-line"></i>
+                    <span class="badge" id="notificationCount">0</span>
+                </button>
+                <div class="notification-dropdown" id="notificationDropdown"></div>
+            </div>
+
+            <div class="profile-section">
+                <button class="profile-btn" id="profileBtn">
+                    <div class="avatar">
+                        <i class="ri-user-fill"></i>
+                    </div>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-header">
+                        <h4 id="dropdownName">User</h4>
+                        <p id="dropdownEmail">user@email.com</p>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item" data-action="profile">
+                        <i class="ri-user-line"></i> My Profile
+                    </button>
+                    <button class="dropdown-item" data-action="saved">
+                        <i class="ri-heart-line"></i> Saved (<span id="savedBadge">0</span>)
+                    </button>
+                    <button class="dropdown-item" data-action="messages">
+                        <i class="ri-mail-line"></i> Messages (<span id="messageBadge">0</span>)
+                    </button>
+                    <button class="dropdown-item" data-action="settings">
+                        <i class="ri-settings-line"></i> Settings
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item danger" id="logoutBtn">
+                        <i class="ri-logout-box-line"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-close">
+            <button id="closeSidebar">
+                <i class="ri-close-line"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-menu">
+            <div class="menu-section">
+                <h3>MAIN</h3>
+                <button class="menu-item active" data-section="dashboard">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="menu-item" data-section="browse">
+                    <i class="ri-home-4-line"></i>
+                    <span>Browse Apartments</span>
+                </button>
+            </div>
+
+            <div class="menu-section">
+                <h3>YOUR ITEMS</h3>
+                <button class="menu-item" data-section="saved">
+                    <i class="ri-heart-line"></i>
+                    <span>Saved</span>
+                    <span class="menu-badge" id="sidebarSavedBadge">0</span>
+                </button>
+                <button class="menu-item" data-section="messages">
+                    <i class="ri-mail-line"></i>
+                    <span>Messages</span>
+                    <span class="menu-badge" id="sidebarMessageBadge">0</span>
+                </button>
+                <button class="menu-item" data-section="compare">
+                    <i class="ri-equalizer-line"></i>
+                    <span>Compare</span>
+                    <span class="menu-badge" id="sidebarCompareBadge">0</span>
+                </button>
+            </div>
+
+            <div class="menu-section">
+                <h3>TOOLS</h3>
+                <button class="menu-item" data-section="map">
+                    <i class="ri-map-pin-line"></i>
+                    <span>Map View</span>
+                </button>
+                <button class="menu-item" data-section="favorites">
+                    <i class="ri-star-line"></i>
+                    <span>Featured</span>
+                </button>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-card">
+                <div class="user-avatar">
+                    <i class="ri-user-fill"></i>
+                </div>
+                <div class="user-info">
+                    <p id="sidebarUserName">Student</p>
+                    <small id="sidebarUserEmail">user@email.com</small>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- OVERLAY FOR MOBILE -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- DASHBOARD VIEW -->
+        <section id="dashboardView" class="view-section">
+            <!-- WELCOME BANNER WITH GRADIENT -->
+            <div class="welcome-banner">
+                <div class="banner-content">
+                    <div class="banner-text">
+                        <h2>Welcome back, <span id="welcomeName">User</span>! 👋</h2>
+                        <p id="bannerMessage">Ready to find your perfect apartment?</p>
+                    </div>
+                    <div class="banner-illustration">
+                        <i class="ri-home-smile-line"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATS CARDS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <i class="ri-home-4-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Available</h4>
+                        <p class="stat-number" id="statsAvailable">0</p>
+                        <small>Apartments Found</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon success">
+                        <i class="ri-heart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Saved</h4>
+                        <p class="stat-number" id="statsSaved">0</p>
+                        <small>Your Favorites</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon info">
+                        <i class="ri-mail-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Messages</h4>
+                        <p class="stat-number" id="statsMessages">0</p>
+                        <small>New Conversations</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon warning">
+                        <i class="ri-eye-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Viewed</h4>
+                        <p class="stat-number" id="statsViewed">0</p>
+                        <small>This Month</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn primary" data-action="browse">
+                        <i class="ri-search-line"></i>
+                        <span>Start Searching</span>
+                    </button>
+                    <button class="action-btn secondary" data-action="saved">
+                        <i class="ri-heart-line"></i>
+                        <span>View Saved</span>
+                    </button>
+                    <button class="action-btn tertiary" data-action="messages">
+                        <i class="ri-mail-line"></i>
+                        <span>Messages</span>
+                    </button>
+                    <button class="action-btn quaternary" data-action="profile">
+                        <i class="ri-user-line"></i>
+                        <span>My Profile</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- FEATURED APARTMENTS -->
+            <div class="featured-section">
+                <div class="section-header">
+                    <h3>🔥 Featured This Week</h3>
+                    <a href="#" class="view-all" data-section="browse">View all →</a>
+                </div>
+                <div id="featuredContainer" class="apartments-carousel"></div>
+            </div>
+
+            <!-- RECENTLY VIEWED -->
+            <div class="recently-viewed-section" id="recentlyViewedSection" style="display: none;">
+                <div class="section-header">
+                    <h3>📺 Recently Viewed</h3>
+                </div>
+                <div id="recentlyViewedContainer" class="apartments-carousel"></div>
+            </div>
+        </section>
+
+        <!-- BROWSE VIEW -->
+        <section id="browseView" class="view-section" style="display: none;">
+            <!-- ADVANCED FILTER DRAWER -->
+            <div class="filter-drawer" id="filterDrawer">
+                <div class="filter-header">
+                    <h3>Filters & Search</h3>
+                    <button class="filter-close" id="filterClose">
+                        <i class="ri-close-line"></i>
+                    </button>
+                </div>
+
+                <div class="filter-content">
+                    <div class="filter-group">
+                        <label>Search Location</label>
+                        <div class="search-input">
+                            <i class="ri-map-pin-line"></i>
+                            <input type="text" id="searchLocation" placeholder="Enter location...">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Price Range</label>
+                        <div class="price-inputs">
+                            <input type="number" id="priceMin" placeholder="Min" value="0">
+                            <span>-</span>
+                            <input type="number" id="priceMax" placeholder="Max" value="100000">
+                        </div>
+                        <input type="range" id="priceSlider" min="0" max="100000" value="100000" class="price-slider">
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Room Type</label>
+                        <div class="room-type-grid">
+                            <button class="room-type-btn" data-type="Bedsitter">
+                                <i class="ri-door-lock-line"></i>
+                                <span>Bedsitter</span>
+                            </button>
+                            <button class="room-type-btn" data-type="Studio">
+                                <i class="ri-home-4-line"></i>
+                                <span>Studio</span>
+                            </button>
+                            <button class="room-type-btn" data-type="1 Bedroom">
+                                <i class="ri-home-5-line"></i>
+                                <span>1BR</span>
+                            </button>
+                            <button class="room-type-btn" data-type="2 Bedroom">
+                                <i class="ri-home-6-line"></i>
+                                <span>2BR</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Amenities</label>
+                        <div class="amenities-grid">
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" class="amenity-filter" value="WiFi">
+                                <span>🌐 WiFi</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" class="amenity-filter" value="Water">
+                                <span>💧 Water</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" class="amenity-filter" value="Parking">
+                                <span>🅿️ Parking</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" class="amenity-filter" value="Security">
+                                <span>🔐 Security</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" class="amenity-filter" value="Furnished">
+                                <span>🛋️ Furnished</span>
+                            </label>
+                            <label class="amenity-checkbox">
+                                <input type="checkbox" class="amenity-filter" value="Gym">
+                                <span>💪 Gym</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select id="sortBy">
+                            <option value="newest">🆕 Newest First</option>
+                            <option value="price-low">💰 Price: Low to High</option>
+                            <option value="price-high">💰 Price: High to Low</option>
+                            <option value="popular">⭐ Most Popular</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button class="btn-secondary" id="resetFilters">
+                            <i class="ri-refresh-line"></i> Reset
+                        </button>
+                        <button class="btn-primary" id="applyFilters">
+                            <i class="ri-check-line"></i> Apply Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTER TOGGLE & INFO BAR -->
+            <div class="browse-header">
+                <button class="btn-filter-toggle" id="filterToggle">
+                    <i class="ri-filter-line"></i> Filters
+                </button>
+                <div class="results-info">
+                    <span id="resultsCount">0 apartments found</span>
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid">
+                        <i class="ri-layout-grid-line"></i>
+                    </button>
+                    <button class="view-btn" data-view="list">
+                        <i class="ri-list-line"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ACTIVE FILTERS CHIPS -->
+            <div class="active-filters" id="activeFilters"></div>
+
+            <!-- APARTMENTS GRID/LIST -->
+            <div class="apartments-section">
+                <div id="apartmentContainer" class="apartments-grid"></div>
+            </div>
+
+            <!-- PAGINATION -->
+            <div id="paginationContainer" class="pagination" style="display: none;">
+                <button id="prevBtn" class="pagination-btn">
+                    <i class="ri-arrow-left-s-line"></i> Previous
+                </button>
+                <div class="pagination-info">
+                    <span id="pageInfo">Page 1</span>
+                </div>
+                <button id="nextBtn" class="pagination-btn">
+                    Next <i class="ri-arrow-right-s-line"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- SAVED APARTMENTS VIEW -->
+        <section id="savedView" class="view-section" style="display: none;">
+            <div class="section-title">
+                <h2>❤️ Your Saved Apartments</h2>
+                <p>Your collection of favorite apartments</p>
+            </div>
+            <div id="savedContainer" class="apartments-grid"></div>
+        </section>
+
+        <!-- MESSAGES VIEW -->
+        <!-- MESSAGES VIEW -->
+        <section id="messagesView" class="view-section" style="display: none;">
+            <div class="section-title">
+                <h2>💬 Messages</h2>
+                <p>Conversations with landlords</p>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="messagesContainer" class="messages-grid" style="margin-right: 0;"></div>
+        </section>
+
+        <!-- REPLY DRAWER (Hidden by default) -->
+        <div id="replyDrawer" style="
+    position: fixed;
+    right: -400px;
+    top: 0;
+    width: 400px;
+    height: 100vh;
+    background: white;
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+">
+            <!-- Drawer Header -->
+            <div style="
+        padding: 20px;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+    ">
+                <h3 style="margin: 0; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                    <i class="ri-message-3-line"></i> Reply
+                </h3>
+                <button id="closeDrawer" style="
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: background 0.2s;
+        " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+
+            <!-- Drawer Content -->
+            <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+
+                <!-- Selected Apartment Info -->
+                <div id="selectedAptInfo" style="
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        ">
+                    <small style="color: #6b7280; font-weight: 600;">REPLYING TO</small>
+                    <h4 id="selectedAptTitle" style="margin: 4px 0 0 0; color: #1f2937;"></h4>
+                    <p id="selectedAptLocation" style="margin: 4px 0 0 0; font-size: 13px; color: #6b7280;"></p>
+                    <p id="selectedAptPrice" style="margin: 4px 0 0 0; font-size: 13px; color: #2563eb; font-weight: 600;"></p>
+                </div>
+
+                <!-- Form -->
+                <form id="messageForm" style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151; font-size: 13px;">
+                            <i class="ri-home-4-line"></i> APARTMENT
+                        </label>
+                        <select id="messageApartmentSelect" required style="
+                    width: 100%;
+                    padding: 12px 14px;
+                    border: 2px solid #d1d5db;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    font-family: inherit;
+                    background: white;
+                    color: #1f2937;
+                    cursor: pointer;
+                    transition: border-color 0.2s;
+                " onchange="updateDrawerApartmentInfo()" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'">
+                            <option value="">-- Choose an apartment --</option>
+                        </select>
+                    </div>
+
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151; font-size: 13px;">
+                            <i class="ri-chat-3-line"></i> MESSAGE
+                        </label>
+                        <textarea id="messageInput" placeholder="Type your message..." required style="
+                    flex: 1;
+                    padding: 12px 14px;
+                    border: 2px solid #d1d5db;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    font-family: inherit;
+                    resize: none;
+                    transition: border-color 0.2s;
+                " onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'"></textarea>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Drawer Footer -->
+            <div style="
+        padding: 16px 20px;
+        border-top: 1px solid #e5e7eb;
+        background: #f9fafb;
+        display: flex;
+        gap: 8px;
+    ">
+                <button type="button" id="cancelDrawer" style="
+            flex: 1;
+            padding: 12px;
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        " onmouseover="this.style.background='#d1d5db'" onmouseout="this.style.background='#e5e7eb'">
+                    Cancel
+                </button>
+                <button type="submit" form="messageForm" style="
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: transform 0.2s;
+        " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <i class="ri-send-plane-line"></i> Send
+                </button>
+            </div>
+        </div>
+
+        <!-- Drawer Overlay -->
+        <div id="drawerOverlay" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    z-index: 999;
+    display: none;
+" onclick="closeReplyDrawer()"></div>
+
+        <!-- COMPARE VIEW -->
+        <section id="compareView" class="view-section" style="display: none;">
+            <div class="section-title">
+                <h2>🔍 Compare Apartments</h2>
+                <p>Side-by-side comparison of selected apartments</p>
+            </div>
+            <div id="comparisonTable" class="comparison-container"></div>
+        </section>
+
+        <!-- PROFILE VIEW -->
+        <section id="profileView" class="view-section" style="display: none;">
+            <div class="section-title">
+                <h2>👤 My Profile</h2>
+                <p>Manage your account information</p>
+            </div>
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="ri-user-fill"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="profileName">Student Name</h3>
+                            <p id="profileEmail">student@email.com</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-body">
+                        <div class="profile-field">
+                            <label>📱 Phone Number</label>
+                            <p id="profilePhone">Not provided</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>🏫 University</label>
+                            <p id="profileUniversity">Not specified</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>📅 Member Since</label>
+                            <p id="profileDate">Not available</p>
+                        </div>
+                        <div class="profile-field">
+                            <label>🔍 Profile Views</label>
+                            <p id="profileViews">0 views</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAP VIEW -->
+        <section id="mapView" class="view-section" style="display: none;">
+            <div class="section-title">
+                <h2>🗺️ Map View</h2>
+                <p>Explore apartments on the interactive map</p>
+            </div>
+
+            <!-- Map Controls -->
+            <div class="map-controls">
+                <input type="text" id="mapSearchLocation" class="map-search" placeholder="Search location...">
+                <button id="mapResetView" class="map-btn">📍 Reset View</button>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <span class="legend-color primary"></span> All Apartments
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color filtered"></span> Filtered Results
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div id="mapContainer" style="width: 100%; height: 600px; border-radius: 12px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"></div>
+
+            <!-- Apartments List Below Map -->
+            <div style="margin-top: 32px;">
+                <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--dark);">Apartments Found</h3>
+                <div id="mapApartmentsList" class="apartments-grid"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FLOATING ACTION BUTTON -->
+    <button class="fab" id="fab" title="Quick filters">
+        <i class="ri-search-line"></i>
+    </button>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <p>© 2026 Nyumba Find. <a href="privacy.html">Privacy</a> • <a href="terms.html">Terms</a> • <a href="mailto:support@nyumbafind.com">Support</a></p>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/utils.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/auth-helpers.js"></script>
+    <script src="js/student-dashboard.js"></script>
+    <script src="js/map-view.js"></script>
+</body>
+</html>

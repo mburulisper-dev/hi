@@ -1,0 +1,146 @@
+/* ===== ERROR PAGES ===== */
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+}
+
+.error-code {
+    font-size: 120px;
+    font-weight: 700;
+    opacity: 0.8;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.error-container h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.error-container p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    max-width: 500px;
+}
+
+.error-icon {
+    font-size: 80px;
+    margin: 30px 0;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.error-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.error-actions .btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    background: white;
+    color: #667eea;
+    border: 2px solid white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.error-actions .btn:hover {
+    background: transparent;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.error-actions .btn.secondary {
+    background: transparent;
+    color: white;
+}
+
+.error-actions .btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.help-text {
+    margin-top: 40px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.help-text a {
+    color: white;
+    text-decoration: underline;
+    transition: opacity 0.3s;
+}
+
+.help-text a:hover {
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .error-code {
+        font-size: 80px;
+    }
+
+    .error-container h1 {
+        font-size: 36px;
+    }
+
+    .error-icon {
+        font-size: 60px;
+    }
+
+    .error-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .error-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-code {
+        font-size: 60px;
+    }
+
+    .error-container h1 {
+        font-size: 28px;
+    }
+
+    .error-container p {
+        font-size: 16px;
+    }
+
+    .error-icon {
+        font-size: 50px;
+    }
+}

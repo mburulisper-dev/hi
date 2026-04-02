@@ -1,0 +1,238 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.navbar {
+    position: absolute;
+    width: 100%;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: #3b82f6;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #3b82f6;
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1545324418-cc1a9a6fded0?w=1200&q=80') center/cover no-repeat;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-content {
+    position: relative;
+    max-width: 900px;
+    padding: 20px;
+}
+
+.mini-title {
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    opacity: 0.9;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hero h1 {
+    font-size: 70px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 20px;
+    margin-bottom: 40px;
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 14px 35px;
+    background-color: #2563eb;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s ease;
+    font-weight: 600;
+    font-size: 16px;
+    border: 2px solid #2563eb;
+}
+
+.btn:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.btn.secondary {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 20px 30px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        font-size: 14px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 15px 15px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .mini-title {
+        font-size: 12px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+}
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(31, 41, 55, 0.98);
+        flex-direction: column;
+        list-style: none;
+        padding: 20px;
+        gap: 0;
+        display: none;
+        z-index: 999;
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
+    }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .nav-links li {
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 15px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+    .menu-toggle {
+        display: block;
+        z-index: 1000;
+    }
+}

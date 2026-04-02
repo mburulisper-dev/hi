@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Nyumba Find</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <script src="js/utils.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/auth-helpers.js"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="ri-home-4-line"></i> Nyumba Find
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="student-dashboard.html">Listings</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="help.html">Help</a></li>
+        </ul>
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="ri-menu-line"></i>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <section class="page-header">
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you. Get in touch with us today!</p>
+        </section>
+
+        <section class="page-section">
+            <div class="container">
+                <div class="contact-section">
+                    <div class="contact-form-wrapper">
+                        <h2>Send us a Message</h2>
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <label><i class="ri-user-line"></i> Full Name</label>
+                                <input type="text" id="contactName" placeholder="Your full name" required>
+                                <span class="form-error" id="nameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="ri-mail-line"></i> Email Address</label>
+                                <input type="email" id="contactEmail" placeholder="your@email.com" required>
+                                <span class="form-error" id="emailError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="ri-phone-line"></i> Phone Number (Optional)</label>
+                                <input type="tel" id="contactPhone" placeholder="+254 123 456 789">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="ri-file-text-line"></i> Subject</label>
+                                <input type="text" id="contactSubject" placeholder="What is this about?" required>
+                                <span class="form-error" id="subjectError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="ri-message-2-line"></i> Message</label>
+                                <textarea id="contactMessage" placeholder="Tell us more..." rows="6" required maxlength="1000"></textarea>
+                                <div class="form-help">
+                                    Characters: <span id="charCount">0</span>/1000
+                                </div>
+                                <span class="form-error" id="messageError"></span>
+                            </div>
+
+                            <button type="submit" class="btn-submit">
+                                <i class="ri-mail-send-line"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info-wrapper">
+                        <h2>Contact Information</h2>
+
+                        <div class="contact-info-box">
+                            <i class="ri-map-pin-line"></i>
+                            <h4>Address</h4>
+                            <p>Nairobi, Kenya</p>
+                        </div>
+
+                        <div class="contact-info-box">
+                            <i class="ri-mail-line"></i>
+                            <h4>Email</h4>
+                            <a href="mailto:info@nyumbafind.com">info@nyumbafind.com</a>
+                            <a href="mailto:support@nyumbafind.com">support@nyumbafind.com</a>
+                        </div>
+
+                        <div class="contact-info-box">
+                            <i class="ri-phone-line"></i>
+                            <h4>Phone</h4>
+                            <a href="tel:+254123456789">+254 123 456 789</a>
+                            <p class="hours">Mon-Fri: 9 AM - 6 PM EAT</p>
+                        </div>
+
+                        <div class="contact-info-box">
+                            <i class="ri-time-line"></i>
+                            <h4>Response Time</h4>
+                            <p>We typically respond within 24 hours</p>
+                        </div>
+
+                        <div class="social-links-contact">
+                            <h4>Follow Us</h4>
+                            <div class="links">
+                                <a href="#" title="Facebook"><i class="ri-facebook-circle-line"></i></a>
+                                <a href="#" title="Twitter"><i class="ri-twitter-line"></i></a>
+                                <a href="#" title="Instagram"><i class="ri-instagram-line"></i></a>
+                                <a href="#" title="LinkedIn"><i class="ri-linkedin-box-line"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-section alternate">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <p style="text-align: center; margin-bottom: 30px;">
+                    Can't find what you're looking for? 
+                    <a href="help.html" style="color: #2563eb;">Visit our help center</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>About Nyumba Find</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="help.html">Help & Support</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>For Users</h4>
+                <ul>
+                    <li><a href="student-dashboard.html">Browse Apartments</a></li>
+                    <li><a href="help.html">How It Works</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#"><i class="ri-facebook-circle-line"></i></a>
+                    <a href="#"><i class="ri-twitter-line"></i></a>
+                    <a href="#"><i class="ri-instagram-line"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nyumba Find. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/contact.js"></script>
+</body>
+</html>

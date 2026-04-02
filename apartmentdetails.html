@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Details - Nyumba Find</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/apartmentdetails.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <script src="js/utils.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/auth-helpers.js"></script>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="logo">
+            <i class="ri-home-4-line"></i> Nyumba Find
+        </div>
+        <a href="student-dashboard.html" class="back-btn"><i class="ri-arrow-left-line"></i> Back</a>
+    </nav>
+
+    <div class="details-container">
+        <div class="details-left">
+            <img id="apartmentImage" alt="Apartment Image" style="width: 100%; height: 400px; object-fit: cover; border-radius: 8px; background-color: #f0f0f0;">
+
+            <div class="apartment-info">
+                <h2><i class="ri-home-line"></i> <span id="apartmentTitle"></span></h2>
+                <p><i class="ri-map-pin-line"></i> <span id="apartmentLocation"></span></p>
+                <p><i class="ri-money-dollar-circle-line"></i> <strong><span id="apartmentPrice"></span>/month</strong></p>
+                <p><i class="ri-door-lock-line"></i> <strong>Room Type:</strong> <span id="apartmentRoomType"></span></p>
+            </div>
+
+            <button type="button" onclick="handleMessageLandlord()" class="btn-primary btn-large">
+                <i class="ri-mail-line"></i> Message Landlord
+            </button>
+
+            <h3><i class="ri-star-line"></i> Student Reviews</h3>
+            <div id="reviewsContainer"></div>
+
+            <h4><i class="ri-pencil-line"></i> Add Your Review</h4>
+            <form id="reviewForm" class="review-form" onsubmit="handleSubmitReview(event)">
+                <div class="form-group">
+                    <input type="text" id="reviewerName" placeholder="Your name" maxlength="50" required>
+                    <span class="form-error" id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="reviewText" placeholder="Share your experience..." maxlength="500" required></textarea>
+                    <div class="form-help">Characters: <span id="charCount">0</span>/500</div>
+                    <span class="form-error" id="textError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Rating:</label>
+                    <select id="rating" required>
+                        <option value="">Select rating</option>
+                        <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                        <option value="4">⭐⭐⭐⭐ Good</option>
+                        <option value="3">⭐⭐⭐ Average</option>
+                        <option value="2">⭐⭐ Poor</option>
+                        <option value="1">⭐ Bad</option>
+                    </select>
+                    <span class="form-error" id="ratingError"></span>
+                </div>
+
+                <button type="submit" class="btn-primary">Submit Review</button>
+            </form>
+        </div>
+
+        <div class="details-right">
+            <h3><i class="ri-checkbox-circle-line"></i> Amenities</h3>
+            <ul id="amenitiesList"></ul>
+
+            <div class="details-card">
+                <h4><i class="ri-information-line"></i> Apartment Info</h4>
+                <p><strong>Added:</strong> <span id="addedDate">-</span></p>
+                <p><strong>Reviews:</strong> <span id="reviewCount">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentApartment = null;
+        let currentApartmentId = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            console.log('DOMContentLoaded fired');
+
+            const apartmentId = localStorage.getItem("selectedApartmentId");
+            console.log('Apartment ID:', apartmentId);
+
+            if (!apartmentId) {
+                document.body.innerHTML = '<div style="padding: 40px; text-align: center;"><h2>❌ Apartment not found</h2><a href="student-dashboard.html">← Go back</a></div>';
+                return;
+            }
+
+            currentApartmentId = apartmentId;
+            await loadApartmentDetail();
+
+            const reviewText = document.getElementById("reviewText");
+            if (reviewText) {
+                reviewText.addEventListener("input", updateCharCount);
+            }
+        });
+
+        function handleMessageLandlord() {
+            console.log('handleMessageLandlord called');
+            messageLandlord();
+        }
+
+        function handleSubmitReview(event) {
+            console.log('handleSubmitReview called');
+            event.preventDefault();
+            submitReview(event);
+        }
+
+        async function loadApartmentDetail() {
+            showLoader('Loading apartment details...');
+
+            try {
+                const response = await getApartment(currentApartmentId);
+                hideLoader();
+
+                console.log('Apartment response:', response);
+
+                if (response.status !== 'success') {
+                    showToast('Failed to load apartment', 'error');
+                    return;
+                }
+
+                currentApartment = response.data;
+                console.log('Current apartment:', currentApartment);
+
+                loadApartmentDetails(currentApartment);
+                loadReviews(currentApartment.id);
+            } catch (error) {
+                hideLoader();
+                console.error('Error loading apartment:', error);
+                showToast('Error loading apartment', 'error');
+            }
+        }
+
+        function loadApartmentDetails(apartment) {
+            let imageUrl = apartment.image_path;
+            const imgElement = document.getElementById("apartmentImage");
+
+            console.log('Raw image_path from API:', imageUrl);
+
+            if (imageUrl && imageUrl.trim() !== '') {
+                // Extract just the filename
+                let filename = imageUrl;
+                filename = filename.replace(/^.*\//g, '');  // Remove all path segments, keep only filename
+
+                // Build full URL using UPLOAD_URL from api-client.js
+                imageUrl = UPLOAD_URL + filename;
+                console.log('Full image URL:', imageUrl);
+            } else {
+                imageUrl = null;
+                console.log('No image path provided');
+            }
+
+            if (imageUrl) {
+                imgElement.src = imageUrl;
+                console.log('Setting image src to:', imageUrl);
+            } else {
+                imgElement.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f5f5f5" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="16" fill="%23999"%3ENo Image Available%3C/text%3E%3C/svg%3E';
+            }
+
+            imgElement.onerror = function () {
+                console.error('Failed to load image from:', this.src);
+                this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23e0e0e0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="14" fill="%23999"%3EImage Load Error%3C/text%3E%3C/svg%3E';
+            };
+
+            imgElement.alt = apartment.title;
+
+            document.getElementById("apartmentTitle").textContent = apartment.title;
+            document.getElementById("apartmentLocation").textContent = apartment.location;
+            document.getElementById("apartmentPrice").textContent = "KSh " + Number(apartment.price).toLocaleString();
+            document.getElementById("apartmentRoomType").textContent = apartment.room_type || "Not specified";
+            document.getElementById("addedDate").textContent = new Date(apartment.created_at).toLocaleDateString();
+
+            const amenitiesList = document.getElementById("amenitiesList");
+            amenitiesList.innerHTML = "";
+
+            if (apartment.amenities && apartment.amenities.length > 0) {
+                apartment.amenities.forEach(function (amenity) {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<i class="ri-checkbox-circle-line"></i> ${amenity}`;
+                    amenitiesList.appendChild(li);
+                });
+            } else {
+                amenitiesList.innerHTML = "<li style='color: #999;'>No amenities listed</li>";
+            }
+        }
+
+        async function messageLandlord() {
+            console.log('messageLandlord function');
+
+            if (!currentApartment) {
+                showToast('Apartment not loaded', 'error');
+                return;
+            }
+
+            // Check if user is logged in
+            const token = getAuthToken();
+            if (!token) {
+                showToast('Please login to send messages', 'error');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Show message form modal/section instead of prompt
+            showMessageForm();
+        }
+
+        function showMessageForm() {
+            // Create modal overlay
+            const modal = document.createElement('div');
+            modal.id = 'messageModal';
+            modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    `;
+
+            modal.innerHTML = `
+        <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="margin-top: 0; margin-bottom: 20px;">📧 Send Message to Landlord</h3>
+            
+            <form id="messageForm" style="display: flex; flex-direction: column; gap: 15px;">
+                <textarea 
+                    id="messageInput" 
+                    placeholder="Write your message here..." 
+                    maxlength="500"
+                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: Arial; font-size: 14px; min-height: 120px; resize: vertical;"
+                    required
+                ></textarea>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn-primary" style="flex: 1; padding: 10px; cursor: pointer;">
+                        <i class="ri-send-plane-line"></i> Send Message
+                    </button>
+                    <button type="button" id="cancelBtn" class="btn-secondary" style="flex: 1; padding: 10px; cursor: pointer;">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+
+            document.body.appendChild(modal);
+
+            // Handle form submission
+            const form = document.getElementById('messageForm');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const message = document.getElementById('messageInput').value.trim();
+
+                if (message.length < 5) {
+                    showToast('Message must be at least 5 characters', 'warning');
+                    return;
+                }
+
+                modal.remove();
+                await sendMessageToLandlord(message);
+            });
+
+            // Handle cancel button
+            document.getElementById('cancelBtn').addEventListener('click', () => {
+                modal.remove();
+            });
+
+            // Close on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
+        async function sendMessageToLandlord(message) {
+            showLoader('Sending message...');
+
+            try {
+                const response = await sendMessage(
+                    currentApartment.landlord_id,
+                    currentApartmentId,
+                    message
+                );
+
+                hideLoader();
+
+                if (response.status === 'success') {
+                    showToast('✅ Message sent to landlord!', 'success');
+                } else {
+                    showToast(response.message || 'Failed to send message', 'error');
+                }
+            } catch (error) {
+                hideLoader();
+                console.error('Error sending message:', error);
+                showToast('Error sending message: ' + error.message, 'error');
+            }
+        }
+
+        function updateCharCount() {
+            const reviewText = document.getElementById("reviewText");
+            if (reviewText) {
+                const count = reviewText.value.length;
+                document.getElementById("charCount").textContent = count;
+            }
+        }
+
+        async function submitReview(e) {
+            console.log('submitReview function');
+            e.preventDefault();
+
+            const name = document.getElementById("reviewerName").value.trim();
+            const text = document.getElementById("reviewText").value.trim();
+            const rating = document.getElementById("rating").value;
+
+            console.log('Review data:', { name, text, rating });
+
+            document.getElementById("nameError").textContent = "";
+            document.getElementById("textError").textContent = "";
+            document.getElementById("ratingError").textContent = "";
+
+            let isValid = true;
+
+            if (!name || name.length < 2) {
+                document.getElementById("nameError").textContent = "Name must be at least 2 characters";
+                isValid = false;
+            }
+
+            if (!text || text.length < 10) {
+                document.getElementById("textError").textContent = "Review must be at least 10 characters";
+                isValid = false;
+            }
+
+            if (!rating) {
+                document.getElementById("ratingError").textContent = "Please select a rating";
+                isValid = false;
+            }
+
+            if (!isValid) {
+                showToast('Please fix errors', 'error');
+                return;
+            }
+
+            showLoader('Submitting...');
+
+            try {
+                const response = await createReview(currentApartmentId, rating, text);
+                hideLoader();
+
+                console.log('Review response:', response);
+
+                if (response.status === 'success') {
+                    showToast('✅ Review submitted!', 'success');
+                    document.getElementById("reviewForm").reset();
+                    document.getElementById("charCount").textContent = "0";
+                    loadReviews(currentApartmentId);
+                } else {
+                    showToast(response.message || 'Failed', 'error');
+                }
+            } catch (error) {
+                hideLoader();
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        async function loadReviews(apartmentId) {
+            const container = document.getElementById("reviewsContainer");
+            container.innerHTML = "";
+
+            showLoader('Loading reviews...');
+
+            try {
+                const response = await getReviews(apartmentId);
+                hideLoader();
+
+                console.log('Reviews response:', response);
+
+                if (response.status !== 'success' || !response.data || response.data.length === 0) {
+                    document.getElementById("reviewCount").textContent = 0;
+                    container.innerHTML = '<div class="no-reviews">📝 No reviews yet!</div>';
+                    return;
+                }
+
+                const reviews = response.data;
+                document.getElementById("reviewCount").textContent = reviews.length;
+
+                reviews.forEach(function (review) {
+                    const div = document.createElement("div");
+                    div.className = "review-card";
+                    div.innerHTML = `
+                            <div class="review-header">
+                                <h4>👤 ${escapeHtml(review.reviewer_name || 'Anonymous')}</h4>
+                                <p class="review-rating">${'⭐'.repeat(review.rating)}</p>
+                            </div>
+                            <p class="review-text">${escapeHtml(review.review_text)}</p>
+                            <p class="review-date">🕐 ${new Date(review.created_at).toLocaleString()}</p>
+                        `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                hideLoader();
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /nyumba-find/
+    
+    # Don't rewrite for real files
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Rewrite all requests to index.html (for SPA routing)
+    RewriteRule ^(.*)$ index.html [L]
+</IfModule>

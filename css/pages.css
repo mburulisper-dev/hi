@@ -1,0 +1,357 @@
+/* ===== PAGE HEADER ===== */
+.page-header {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    padding: 80px 40px;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.page-header p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* ===== PAGE CONTENT ===== */
+.page-content {
+    min-height: calc(100vh - 200px);
+}
+
+.page-section {
+    padding: 60px 40px;
+    background: white;
+}
+
+.page-section.alternate {
+    background: #f8f9fa;
+}
+
+.page-section h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: #1f2937;
+}
+
+.page-section p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.page-section .container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ===== MISSION POINTS ===== */
+.mission-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.point {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.point i {
+    font-size: 36px;
+    color: #2563eb;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.point h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #1f2937;
+}
+
+.point p {
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ===== TEAM GRID ===== */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.team-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.team-avatar {
+    font-size: 60px;
+    margin-bottom: 15px;
+}
+
+.team-card h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #1f2937;
+}
+
+.team-card p {
+    color: #2563eb;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+.team-card small {
+    display: block;
+    color: #6b7280;
+    margin-top: 10px;
+}
+
+/* ===== STATS GRID ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.stat {
+    text-align: center;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.stat h3 {
+    font-size: 36px;
+    color: #2563eb;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.stat p {
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ===== CONTACT INFO ===== */
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.contact-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.contact-item i {
+    font-size: 32px;
+    color: #2563eb;
+    min-width: 40px;
+}
+
+.contact-item h4 {
+    margin: 0 0 8px 0;
+    color: #1f2937;
+    font-size: 16px;
+}
+
+.contact-item p,
+.contact-item a {
+    color: #555;
+    margin: 0;
+    text-decoration: none;
+}
+
+.contact-item a:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .page-header {
+        padding: 50px 20px;
+    }
+
+    .page-header h1 {
+        font-size: 32px;
+    }
+
+    .page-section {
+        padding: 40px 20px;
+    }
+
+    .page-section h2 {
+        font-size: 28px;
+    }
+
+    .team-grid,
+    .stats-grid,
+    .contact-info,
+    .mission-points {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header {
+        padding: 40px 15px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    .page-section {
+        padding: 30px 15px;
+    }
+
+    .page-section h2 {
+        font-size: 22px;
+    }
+
+    .page-header p {
+        font-size: 16px;
+    }
+}
+/* ===== FAQ ===== */
+.faq-container {
+    max-width: 800px;
+    margin: 40px auto 0;
+}
+
+.faq-item {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+    .faq-item.active {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+    .faq-question:hover {
+        background: #f0f1f2;
+    }
+
+    .faq-question h4 {
+        margin: 0;
+        font-size: 16px;
+        color: #1f2937;
+        font-weight: 600;
+    }
+
+.faq-icon {
+    font-size: 24px;
+    color: #2563eb;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    padding: 0 20px 20px;
+    color: #555;
+    line-height: 1.8;
+    border-top: 1px solid #e5e7eb;
+}
+
+    .faq-answer p {
+        margin: 0;
+    }
+
+/* ===== SUPPORT CHANNELS ===== */
+.support-channels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.channel {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+    .channel:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .channel i {
+        font-size: 36px;
+        color: #2563eb;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .channel h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #1f2937;
+    }
+
+    .channel a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+        .channel a:hover {
+            text-decoration: underline;
+        }
+
+    .channel p {
+        font-size: 14px;
+        color: #6b7280;
+        margin: 0;
+    }

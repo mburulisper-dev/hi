@@ -1,0 +1,475 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f4f6f9;
+    padding: 20px;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    background: #f0f4ff;
+}
+
+.back-btn:hover {
+    background: #e0ecff;
+    transform: translateX(-2px);
+}
+
+.details-container {
+    display: flex;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.details-left {
+    flex: 2;
+}
+
+.details-right {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.details-left img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.apartment-info {
+    margin-bottom: 20px;
+}
+
+.details-left h2,
+.details-left h3,
+.details-left h4,
+.details-right h3 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #1f2937;
+    font-size: 20px;
+}
+
+.details-left p {
+    font-size: 16px;
+    margin: 12px 0;
+    color: #555;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.details-left strong {
+    color: #374151;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-large {
+    width: 100%;
+}
+
+#reviewForm {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.review-form input,
+.review-form textarea,
+.review-form select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.review-form input:focus,
+.review-form textarea:focus,
+.review-form select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.review-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+#amenitiesList {
+    list-style: none;
+    padding: 0;
+}
+
+#amenitiesList li {
+    padding: 14px 0;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#amenitiesList li::before {
+    content: "✓";
+    color: #10b981;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.review-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2563eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.review-header h4 {
+    margin: 0;
+    color: #1f2937;
+    font-size: 16px;
+}
+
+.review-rating {
+    color: #f59e0b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.review-text {
+    margin: 12px 0;
+    color: #555;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+}
+
+.no-reviews {
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    padding: 30px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.details-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.details-card h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.details-card p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .details-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .details-left img {
+        height: 250px;
+    }
+
+    .details-right {
+        position: static;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .details-left h2,
+    .details-left h3,
+    .details-left h4 {
+        font-size: 18px;
+    }
+
+    .top-nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .details-container {
+        padding: 20px;
+    }
+
+    .details-left img {
+        height: 200px;
+        margin-bottom: 20px;
+    }
+
+    .details-right {
+        padding: 15px;
+    }
+
+    .review-form {
+        padding: 15px;
+    }
+}
+
+/* ===== IMAGE GALLERY ===== */
+.apartment-gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.gallery-main {
+    grid-row: span 2;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+    .gallery-main img,
+    .gallery-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-main:hover img,
+    .gallery-thumbnail:hover img {
+        transform: scale(1.05);
+    }
+
+.gallery-thumbnail {
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+
+    .gallery-thumbnail::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0);
+        transition: background 0.3s;
+    }
+
+    .gallery-thumbnail:hover::after {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+/* ===== LIGHTBOX ===== */
+.image-lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+    z-index: 10000;
+}
+
+    .lightbox-close:hover,
+    .lightbox-prev:hover,
+    .lightbox-next:hover {
+        background: rgba(255, 255, 255, 0.4);
+        transform: scale(1.1);
+    }
+
+.lightbox-close {
+    top: 20px;
+    right: 20px;
+}
+
+.lightbox-prev {
+    left: 20px;
+}
+
+.lightbox-next {
+    right: 20px;
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+}

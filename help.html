@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - Nyumba Find</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <script src="js/utils.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/auth-helpers.js"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="ri-home-4-line"></i> Nyumba Find
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="student-dashboard.html">Listings</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="help.html">Help</a></li>
+        </ul>
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="ri-menu-line"></i>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <section class="page-header">
+            <h1>Help & Support</h1>
+            <p>Find answers to your questions about Nyumba Find</p>
+        </section>
+
+        <section class="page-section">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How do I create an account?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                Click on "Get Started" or "Register" button. Fill in your details including 
+                                full name, email, phone number, and password. Select whether you're a student or 
+                                landlord, and you're all set!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How do I search for apartments?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                Log in to your account and go to "Browse Apartments". Use the search bar to 
+                                filter by location, price range, and room type. You can also filter by amenities 
+                                like WiFi, Water, Parking, and more.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How do I contact a landlord?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                Click on an apartment to view details. You'll see a "Message Landlord" button. 
+                                Click it to send a message directly to the landlord. You can ask questions about 
+                                the apartment, availability, or anything else.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How do I save an apartment?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                On each apartment card, you'll see a heart icon. Click it to save the apartment 
+                                to your saved list. You can view all saved apartments in your profile by clicking 
+                                "Saved Apartments".
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How do I leave a review?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                Go to the apartment details page. Scroll down to "Add Review" section. Enter your 
+                                name, write your review (minimum 10 characters), and select a rating from 1-5 stars. 
+                                Click "Submit Review" and your review will be visible to other students.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How do landlords list apartments?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                Landlords can log in and go to their dashboard. Click "Add Apartment" and fill in 
+                                the details including title, location, price, room type, amenities, and upload an 
+                                image. Once added, the apartment will be visible to students.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>Is my data safe on Nyumba Find?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                Yes! We use industry-standard encryption to protect your personal data. We never 
+                                share your information with third parties without your consent. Read our Privacy Policy 
+                                for more details.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>What should I do if I find a suspicious listing?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                If you see a listing that looks suspicious or violates our guidelines, please 
+                                contact us immediately at support@nyumbafind.com with the apartment details and 
+                                reasons for reporting.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How do I reset my password?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                On the login page, click "Forgot Password?" Enter your email address. You'll receive 
+                                an email with a link to reset your password. Click the link and create a new password.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>Can I delete my account?</h4>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>
+                                Yes, you can request account deletion from your account settings. Go to Settings 
+                                → Account → Delete Account. Please note that this action is permanent and cannot be undone.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-section alternate">
+            <div class="container">
+                <h2>Still Need Help?</h2>
+                <p style="text-align: center; margin-bottom: 30px;">
+                    We're here to help! Contact us through any of these channels.
+                </p>
+
+                <div class="support-channels">
+                    <div class="channel">
+                        <i class="ri-mail-line"></i>
+                        <h4>Email</h4>
+                        <a href="mailto:support@nyumbafind.com">support@nyumbafind.com</a>
+                        <p>Response within 24 hours</p>
+                    </div>
+
+                    <div class="channel">
+                        <i class="ri-phone-line"></i>
+                        <h4>Phone</h4>
+                        <a href="tel:+254123456789">+254 769 634 348</a>
+                        <p>Available 9 AM - 6 PM</p>
+                    </div>
+
+                    <div class="channel">
+                        <i class="ri-message-2-line"></i>
+                        <h4>Live Chat</h4>
+                        <a href="#">Start Chat</a>
+                        <p>Available during business hours</p>
+                    </div>
+
+                    <div class="channel">
+                        <i class="ri-twitter-line"></i>
+                        <h4>Twitter</h4>
+                        <a href="#">@NyumbaFind</a>
+                        <p>Follow for updates</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>About Nyumba Find</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="help.html">Help & Support</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>For Users</h4>
+                <ul>
+                    <li><a href="student-dashboard.html">Browse Apartments</a></li>
+                    <li><a href="help.html">How It Works</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#"><i class="ri-facebook-circle-line"></i></a>
+                    <a href="#"><i class="ri-twitter-line"></i></a>
+                    <a href="#"><i class="ri-instagram-line"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nyumba Find. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/faq.js"></script>
+</body>
+</html>

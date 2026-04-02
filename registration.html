@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - Nyumba Find</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/registration.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <script src="js/utils.js"></script>
+    <script src="js/api-client.js"></script>
+</head>
+<body>
+
+    <div class="form-container">
+        <div id="typeSelection" class="user-type-selection">
+            <h2>Create Account</h2>
+            <p class="form-subtitle">Are you a student or landlord?</p>
+
+            <div class="type-buttons">
+                <button type="button" class="type-btn" id="student-btn">
+                    <i class="ri-user-line"></i>
+                    Student
+                </button>
+                <button type="button" class="type-btn" id="landlord-btn" >
+                    <i class="ri-home-line"></i>
+                    Landlord
+                </button>
+            </div>
+        </div>
+
+        <div id="registrationForm" class="registration-form-wrapper" style="display: none;">
+            <button type="button" class="back-btn" onclick="backToTypeSelection()">
+                <i class="ri-arrow-left-line"></i> Back
+            </button>
+
+            <h2>Create Account</h2>
+            <p class="form-subtitle" id="typeSubtitle">Join Nyumba Find today</p>
+
+            <form id="registerFormElement">
+                <div class="form-group">
+                    <label for="fullname"><i class="ri-user-line"></i> Full Name</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+                    <span class="form-error" id="fullnameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><i class="ri-mail-line"></i> Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <span class="form-error" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone"><i class="ri-phone-line"></i> Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                    <span class="form-error" id="phoneError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="ri-shield-check-line"></i> Title</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="title" value="Mr." required>
+                            Mr.
+                        </label>
+                        <label>
+                            <input type="radio" name="title" value="Ms.">
+                            Ms.
+                        </label>
+                        <label>
+                            <input type="radio" name="title" value="Mrs.">
+                            Mrs.
+                        </label>
+                    </div>
+                    <span class="form-error" id="titleError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password"><i class="ri-lock-line"></i> Password</label>
+                    <input type="password" id="password" name="password" placeholder="At least 4 characters" required minlength="4" maxlength="20">
+                    <span class="form-error" id="passwordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword"><i class="ri-lock-line"></i> Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password" required minlength="4" maxlength="20">
+                    <span class="form-error" id="confirmPasswordError"></span>
+                </div>
+
+                <div class="form-checkbox">
+                    <label>
+                        <input type="checkbox" id="termsCheck" required>
+                        I agree to the <a href="terms.html" target="_blank">terms and conditions</a>
+                    </label>
+                    <span class="form-error" id="termsError"></span>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="ri-user-add-line"></i> Create Account
+                </button>
+            </form>
+
+            <p class="register-link">
+                Already have an account? <a href="login.html">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/registration.js"></script>
+</body>
+</html>

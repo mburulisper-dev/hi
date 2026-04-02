@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landlord Profile - Nyumba Find</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/student-dashboard.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <script src="js/utils.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/auth-helpers.js"></script>
+    <script src="js/landlord-profile.js"></script>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="logo">
+            <i class="ri-home-4-line"></i> Nyumba Find
+        </div>
+        <div class="nav-icons">
+            <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
+            <a href="landlord-dashboard.html" class="back-btn"><i class="ri-arrow-left-line"></i> Back</a>
+        </div>
+    </nav>
+
+    <main class="profile-container">
+        <div class="profile-header">
+            <div class="profile-cover"></div>
+            <div class="profile-info">
+                <div class="profile-avatar" id="profileAvatar" style="cursor: pointer; position: relative; display: inline-block;">
+                    <!-- Image (hidden by default) -->
+                    <img id="profileImage" src="" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; position: absolute; top: 0; left: 0;">
+
+                    <!-- Default icon (shown by default) -->
+                    <div id="avatarIcon" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-radius: 50%;">
+                        🏢
+                    </div>
+
+                    <!-- Overlay -->
+                    <div class="avatar-upload-overlay">
+                        <i class="ri-camera-fill" style="font-size: 28px; color: white;"></i>
+                        <span style="color: white; font-size: 12px; text-transform: uppercase; font-weight: 600;">Upload Photo</span>
+                    </div>
+
+                    <!-- Hidden file input -->
+                    <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
+                </div>
+                <div class="profile-details">
+                    <h1 id="landlordName">Landlord Name</h1>
+                    <p><span id="landlordRating">⭐⭐⭐⭐⭐</span> (<span id="reviewCount">0</span> reviews)</p>
+                    <p id="landlordLocation">Nairobi, Kenya</p>
+                    <button id="editProfileBtn" class="btn-primary" style="margin-top: 15px; padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#2980b9'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#3498db'; this.style.transform='translateY(0)'">
+                        <i class="ri-edit-line"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="menu-item active" onclick="showSection('overview')">
+                    <i class="ri-home-line"></i> Overview
+                </div>
+                <div class="menu-item" onclick="showSection('apartments')">
+                    <i class="ri-building-line"></i> Apartments
+                </div>
+                <div class="menu-item" onclick="showSection('reviews')">
+                    <i class="ri-star-line"></i> Reviews
+                </div>
+                <div class="menu-item" onclick="showSection('contact')">
+                    <i class="ri-mail-line"></i> Contact
+                </div>
+            </div>
+
+            <div class="profile-main">
+                <!-- Overview Section -->
+                <section id="overview-section" class="profile-section">
+                    <h2>About This Landlord</h2>
+
+                    <div class="profile-stats">
+                        <div class="stat-box">
+                            <div class="stat-value" id="apartmentCount">0</div>
+                            <div class="stat-label">Apartments Listed</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="totalReviews">0</div>
+                            <div class="stat-label">Total Reviews</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="avgRating">4.5</div>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h3>Verification Status</h3>
+                        <div class="verification-badges" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <!-- Badges will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h3>Response Time</h3>
+                        <p style="color: #6b7280;">
+                            Usually responds within <strong>24 hours</strong>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Apartments Section -->
+                <section id="apartments-section" class="profile-section" style="display: none;">
+                    <h2>My Apartments</h2>
+                    <div id="landlordApartments"></div>
+                </section>
+
+                <!-- Reviews Section -->
+                <section id="reviews-section" class="profile-section" style="display: none;">
+                    <h2>Reviews from Students</h2>
+                    <div id="landlordReviews"></div>
+                </section>
+
+                <!-- Contact Section -->
+                <section id="contact-section" class="profile-section" style="display: none;">
+                    <h2>Get In Touch</h2>
+                    <div class="profile-card">
+                        <h3>Contact Information</h3>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="ri-mail-line"></i>
+                                <div>
+                                    <h4>Email</h4>
+                                    <a id="contactEmail" href="#">contact@example.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="ri-phone-line"></i>
+                                <div>
+                                    <h4>Phone</h4>
+                                    <a id="contactPhone" href="#">+254 123 456 789</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nyumba Find. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+</body>
+</html>

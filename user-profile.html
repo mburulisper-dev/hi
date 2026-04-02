@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Nyumba Find</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/student-dashboard.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <script src="js/utils.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/auth-helpers.js"></script>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="logo">
+            <i class="ri-home-4-line"></i> Nyumba Find
+        </div>
+        <div class="nav-icons">
+            <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
+            <a href="student-dashboard.html" class="back-btn"><i class="ri-arrow-left-line"></i> Back</a>
+        </div>
+    </nav>
+
+    <main class="profile-container">
+        <div class="profile-header">
+            <div class="profile-cover"></div>
+            <div class="profile-info">
+                <div class="profile-avatar" id="profileAvatar">👤</div>
+                <div class="profile-details">
+                    <h1 id="profileFullName">User Name</h1>
+                    <p id="profileEmail">user@email.com</p>
+                    <p id="profileMemberSince">Member since January 2024</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="menu-item active" onclick="showSection('overview')">
+                    <i class="ri-home-line"></i> Overview
+                </div>
+                <div class="menu-item" onclick="showSection('edit')">
+                    <i class="ri-edit-line"></i> Edit Profile
+                </div>
+                <div class="menu-item" onclick="showSection('security')">
+                    <i class="ri-lock-line"></i> Security
+                </div>
+                <div class="menu-item" onclick="showSection('reviews')">
+                    <i class="ri-star-line"></i> My Reviews
+                </div>
+                <div class="menu-item" onclick="showSection('saved')">
+                    <i class="ri-heart-line"></i> Saved Apartments
+                </div>
+                <div class="menu-item danger" onclick="logout()">
+                    <i class="ri-logout-box-line"></i> Logout
+                </div>
+            </div>
+
+            <div class="profile-main">
+                <section id="overview-section" class="profile-section">
+                    <h2>Profile Overview</h2>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-box">
+                            <div class="stat-value" id="savedCount">0</div>
+                            <div class="stat-label">Saved Apartments</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="reviewsCount">0</div>
+                            <div class="stat-label">Reviews Written</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="messagesCount">0</div>
+                            <div class="stat-label">Unread Messages</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h3>Personal Information</h3>
+                        <div class="info-row">
+                            <label>Full Name</label>
+                            <p id="infoFullName">-</p>
+                        </div>
+                        <div class="info-row">
+                            <label>Email</label>
+                            <p id="infoEmail">-</p>
+                        </div>
+                        <div class="info-row">
+                            <label>Phone Number</label>
+                            <p id="infoPhone">-</p>
+                        </div>
+                        <div class="info-row">
+                            <label>Title</label>
+                            <p id="infoTitle">-</p>
+                        </div>
+                        <div class="info-row">
+                            <label>Member Since</label>
+                            <p id="infoMemberDate">-</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="edit-section" class="profile-section" style="display: none;">
+                    <h2>Edit Profile</h2>
+                    
+                    <form id="editProfileForm" class="profile-form">
+                        <div class="form-group">
+                            <label><i class="ri-user-line"></i> Full Name</label>
+                            <input type="text" id="editFullName" placeholder="Your full name" required>
+                            <span class="form-error" id="fullNameError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="ri-mail-line"></i> Email</label>
+                            <input type="email" id="editEmail" placeholder="Your email" required disabled>
+                            <small>Email cannot be changed</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="ri-phone-line"></i> Phone Number</label>
+                            <input type="tel" id="editPhone" placeholder="Your phone number" required>
+                            <span class="form-error" id="phoneError"></span>
+                        </div>
+
+                        <button type="submit" class="btn-primary">
+                            <i class="ri-save-line"></i> Save Changes
+                        </button>
+                    </form>
+                </section>
+
+                <section id="security-section" class="profile-section" style="display: none;">
+                    <h2>Security Settings</h2>
+                    
+                    <div class="profile-card">
+                        <h3>Change Password</h3>
+                        <form id="changePasswordForm" class="profile-form">
+                            <div class="form-group">
+                                <label><i class="ri-lock-line"></i> Current Password</label>
+                                <input type="password" id="currentPassword" placeholder="Enter current password" required>
+                                <span class="form-error" id="currentPasswordError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="ri-lock-line"></i> New Password</label>
+                                <input type="password" id="newPassword" placeholder="Enter new password" required minlength="4">
+                                <span class="form-error" id="newPasswordError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="ri-lock-line"></i> Confirm Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password" required minlength="4">
+                                <span class="form-error" id="confirmPasswordError"></span>
+                            </div>
+
+                            <button type="submit" class="btn-primary">
+                                <i class="ri-check-line"></i> Update Password
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="profile-card" style="margin-top: 30px;">
+                        <h3>Two-Factor Authentication</h3>
+                        <p style="color: #6b7280; margin-bottom: 15px;">
+                            Add an extra layer of security to your account
+                        </p>
+                        <button class="btn-secondary">
+                            <i class="ri-shield-check-line"></i> Enable 2FA
+                        </button>
+                    </div>
+
+                    <div class="profile-card" style="margin-top: 30px;">
+                        <h3>Active Sessions</h3>
+                        <p style="color: #6b7280; margin-bottom: 15px;">
+                            Manage your active sessions on other devices
+                        </p>
+                        <button class="btn-secondary">
+                            <i class="ri-device-line"></i> View Sessions
+                        </button>
+                    </div>
+                </section>
+
+                <section id="reviews-section" class="profile-section" style="display: none;">
+                    <h2>My Reviews</h2>
+                    <div id="myReviewsList"></div>
+                </section>
+
+                <section id="saved-section" class="profile-section" style="display: none;">
+                    <h2>Saved Apartments</h2>
+                    <div id="savedApartmentsList"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nyumba Find. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/user-profile.js"></script>
+</body>
+</html>
