@@ -1,8 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://nyumbafind.42web.io/api/:path*"
-    }
+    { "source": "/api/:path*", "destination": "https://matthew.alwaysdata.net/api/:path*" }
   ]
 }
