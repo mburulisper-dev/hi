@@ -1,5 +1,5 @@
-const API_BASE_URL = 'http://localhost/nyumba-find-backend/api';
-const UPLOAD_URL = 'http://localhost/nyumba-find-backend/uploads/';
+const API_BASE_URL = 'https://nyumbafind.42web.io/api';
+const UPLOAD_URL = 'https://nyumbafind.42web.io/uploads/';
 
 console.log('API_BASE_URL:', API_BASE_URL);
 console.log('UPLOAD_URL:', UPLOAD_URL);
