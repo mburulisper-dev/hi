@@ -1,5 +1,5 @@
 const API_BASE_URL = '/api';
-const UPLOAD_URL = '/uploads/';
+const UPLOAD_URL = 'https://matthew.alwaysdata.net/uploads/';
 
 console.log('API_BASE_URL:', API_BASE_URL);
 console.log('UPLOAD_URL:', UPLOAD_URL);
